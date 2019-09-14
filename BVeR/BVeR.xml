@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<executable>
+  <category>Segmentation.Brain Volume Refinement</category>
+  <title>BVeR</title>
+  <description><![CDATA[This is a CLI module for Brain Volume Refinement (BVeR) method, which is useful to correct brain volume masking errors that may appear in commonly brain extraction methods. The BVeR algorithm was extensivelly tested on structural MRI images (T1 and T2) of normal individuals. More details are given at the paper doi: ...]]></description>
+  <version>1.0.0</version>
+  <documentation-url>https://www.slicer.org/wiki/Documentation/Nightly/Modules/BVeR</documentation-url>
+  <license>Slicer</license>
+  <contributor>Antonio Carlos da S. Senra Filho (University of Sao Paulo) and Fabricio Henrique Simozo (University of Sao Paulo)</contributor>
+  <acknowledgements>This work was partially funded by CNPq grant 405574/2017-7.</acknowledgements>
+  <parameters>
+    <label>IO</label>
+    <description><![CDATA[Input/output parameters]]></description>
+    <image type="scalar">
+      <name>inputVolume</name>
+      <label>Input Volume</label>
+      <channel>input</channel>
+      <index>0</index>
+      <description><![CDATA[Input volume. This is a previously brain extracted image which presents small segmentation outliers on the brain frontier (e.g. dura matter or bone marrow). For instance, the output from FSL-BET or any other brain extraction method can be added here.]]></description>
+    </image>
+    <image type="scalar">
+      <name>updatedVolume</name>
+      <label>Updated Volume</label>
+      <channel>output</channel>
+      <index>1</index>
+      <description><![CDATA[Updated Volume with the outlier segmentation being corrected.]]></description>
+    </image>
+    <image type="label">
+      <name>updatedMask</name>
+      <label>Updated Brain Mask</label>
+      <longflag>--updatedMask</longflag>
+      <channel>output</channel>
+      <description><![CDATA[Updated Brain Mask corresponding with the Updated Volume]]></description>
+    </image>
+  </parameters>
+  <parameters>
+  <label>BVeR Parameters</label>
+    <description><![CDATA[Brain volume refinement (BVeR) parameters]]></description>
+    <integer-vector>
+      <name>neighborRadius</name>
+      <longflag>--neighborRadius</longflag>
+      <flag>r</flag>
+      <label>Neighborhood Radius</label>
+      <description><![CDATA[A list of 3 values indicating the (x,y,z) size of the neighbourhood. This should large enough in order to get a consistent local statistics (e.g. values around 3 to 8). Example: a radius of (1,1,1) creates a neighbourhood of (3,3,3) in image space.]]></description>
+      <default>3,3,3</default>
+    </integer-vector>
+    <float>
+      <name>convergence</name>
+      <longflag>--convergence</longflag>
+      <flag>c</flag>
+      <label>Convergence</label>
+      <description><![CDATA[A relative value that indicates how permissive is the algorithm to keep changing the brain borders. This counts how many voxels were changed in previous iterations and then estimate if the total amount of changes reaches a limit (regarding the total number of voxels changed in the brain volume). High values will result in conservative outputs (fewer changes in the brain volume), on the other hand, low values will force a strong volume difference.]]></description>
+      <default>0.01</default>
+      <constraints>
+        <minimum>0.00001</minimum>
+        <maximum>0.05</maximum>
+        <step>0.0001</step>
+      </constraints>
+    </float>
+  </parameters>
+  <parameters advanced="true">
+  <label>Advanced Parameters</label>
+    <description><![CDATA[Additional parameters for tunning BVeR response]]></description>
+    <integer>
+      <name>numberOfIterations</name>
+      <longflag>--iterations</longflag>
+      <flag>i</flag>
+      <label>Number Of Iterations</label>
+      <description><![CDATA[Maximum number of iterations. The brain mask is iteratively updated in order to vanish a bigger error in the previous brain extraction result. This is an up limit threshold in order to avoid infinite loop in the brain volume correction. If the convergence level does not reach a stable result, then the number of iteration limit will stop the algorithm.]]></description>
+      <default>20</default>
+    </integer>
+    <boolean>
+      <name>doInitialFillHoles</name>
+      <longflag>--fillHoles</longflag>
+      <description><![CDATA[Choose if you want to fill holes in the first brain mask. This is important to not place a searching window inside the brain area. One can avoid this if a previous visual check was made in the image and confirm that there is no zero values voxels inside the brain area.]]></description>
+      <label>Apply Binary Hole Filling</label>
+      <default>false</default>
+	</boolean>
+    <integer-vector>
+      <name>fillHoleRadius</name>
+      <longflag>--fillHoleRadius</longflag>
+      <flag>f</flag>
+      <label>Fill Holes Radius</label>
+      <description><![CDATA[A list of 3 values indicating the (x,y,z) size of the neighbourhood used in the binary filling hole procedure. This parameter is only used if "Apply Binary Hole Filling" option is checked. Example: a radius of 1 creates an isotropic neighbourhood of (3,3,3).]]></description>
+      <default>1,1,1</default>
+    </integer-vector>
+    <string-enumeration>
+      <name>selectionMode</name>
+      <longflag>--selectionMode</longflag>
+      <flag>s</flag>
+      <label>Selection Mode</label>
+      <description><![CDATA[The BVeR algorithm relies on the estimate of non-brain voxels that are still present in the input image. These outliers voxels are detected by a determined grey-level threshold, which is iteratively updated. This option will define what is the type of grey level threshold used in the entire process. Local=The threshold is calculated for each neighbourhood - Global=The threshold is set by the global image to mean value (zeros are not considered) - Manual=The user defines a fixed threshold.]]></description>
+      <default>Local</default>
+      <element>Manual</element>
+      <element>Global</element>
+      <element>Local</element>
+    </string-enumeration>
+    <integer>
+      <name>manualThreshold</name>
+      <longflag>--manualThreshold</longflag>
+      <flag>t</flag>
+      <label>Manual Threshold</label>
+      <description><![CDATA[This parameter is only used if "Selection Mode = Manual" is checked.]]></description>
+      <default>1</default>
+    </integer>
+  </parameters>
+</executable>

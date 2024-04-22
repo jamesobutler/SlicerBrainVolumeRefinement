@@ -4,12 +4,12 @@ project(BrainVolumeRefinement)
 
 #-----------------------------------------------------------------------------
 # Extension meta-information
-set(EXTENSION_HOMEPAGE "http://slicer.org/slicerWiki/index.php/Documentation/Nightly/Extensions/BrainVolumeRefinement")
+set(EXTENSION_HOMEPAGE "https://www.slicer.org/wiki/Documentation/Nightly/Extensions/BrainVolumeRefinement")
 set(EXTENSION_CATEGORY "Segmentation")
 set(EXTENSION_CONTRIBUTORS "Antonio Carlos da S. Senra Filho, Fabricio H. Simozo, Luiz Otavio Murta Junior (University of Sao Paulo)")
 set(EXTENSION_DESCRIPTION "This extension offers algorithms to performs brain volume refinements due to previous image processing that results on small data artifacts. For instance, the BVeR method is designed to correct small oversegmentation found at brain extraction methods such as FSL-BET, FreeSurfer, AFNI, ROBEX and others.")
 set(EXTENSION_ICONURL "https://raw.githubusercontent.com/CSIM-Toolkits/SlicerBrainVolumeRefinement/master/BrainVolumeRefinement.png")
-set(EXTENSION_SCREENSHOTURLS "https://raw.githubusercontent.com/CSIM-Toolkits/SlicerBrainVolumeRefinement/master/T1_BET.png https://raw.githubusercontent.com/CSIM-Toolkits/SlicerBrainVolumeRefinement/master/T1_BET_BVeR.png https://raw.githubusercontent.com/CSIM-Toolkits/SlicerBrainVolumeRefinement/master/3D_BVeR_VolDiff.png https://raw.githubusercontent.com/CSIM-Toolkits/SlicerBrainVolumeRefinement/master/BVeR_gui.png")
+set(EXTENSION_SCREENSHOTURLS "https://www.slicer.org/slicerWiki/images/4/47/T1-FS.png https://www.slicer.org/slicerWiki/images/f/f4/T1-FS-BVeR.png https://www.slicer.org/slicerWiki/images/2/2f/BVeR-3D-Anterior.png https://www.slicer.org/slicerWiki/images/2/29/BVeR-3D-Lateral.png https://www.slicer.org/slicerWiki/images/e/ee/BVeR-3D-FreeView.png")
 set(EXTENSION_DEPENDS "NA") # Specified as a space separated string, a list or 'NA' if any
 
 #-----------------------------------------------------------------------------
